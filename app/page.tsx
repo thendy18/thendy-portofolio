@@ -1,301 +1,512 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
-import { 
-  ExternalLink, 
-  Link2, 
-  CheckCircle2, 
-  Calculator, 
-  Calendar, 
-  PieChart 
+import {
+  ArrowDownToLine,
+  ArrowRight,
+  ExternalLink,
+  Link2,
+  Mail,
+  ShieldCheck,
+  Sparkles,
 } from "lucide-react";
 
+import {
+  BudgetSandbox,
+  BookingSandbox,
+  TaxSandbox,
+} from "./components/portfolio-sandboxes";
+
+const projects = [
+  {
+    id: "work",
+    badge: "Production / Live",
+    badgeSecondary: "Enterprise Logic",
+    stack: ["Next.js", "TypeScript", "PP 58/2023", "Supabase"],
+    linkLabel: "View repository",
+    linkHref: "https://github.com/thendy18",
+    title: "Payroll & Coretax-Aligned PPh 21 Engine",
+    description:
+      "A practical tax workflow engine for PP 58/2023 TER handling, monthly reconciliation, and XML-ready export logic. Built to reduce spreadsheet drift and make compliance review visible in the UI.",
+    bullets: [
+      "TER A lookup demo with deterministic bracket mapping and instant tax deduction output.",
+      "Designed to translate business rules into a server-friendly transformation pipeline.",
+    ],
+    architecture: [
+      "[Client] Gaji Bruto JSON",
+      "   │",
+      "   ▼",
+      "[Next.js API Route]",
+      "   │── Validate + sanitize input",
+      "   │── Load TER lookup table",
+      "   │── Calculate tax liability",
+      "   ▼",
+      "[XML transformation layer]",
+      "   ▼",
+      "[Download XML blob]",
+    ],
+  },
+  {
+    id: "expertise",
+    badge: "Operational Systems",
+    badgeSecondary: "Concurrency Demo",
+    stack: ["Next.js", "React State", "Supabase", "Edge Functions"],
+    linkLabel: "View operational proof",
+    linkHref: "https://github.com/thendy18",
+    title: "Thendy Hair Garage - Operational Scheduling Engine",
+    description:
+      "A self-booking flow that models double-booking risk on the client side and demonstrates how optimistic UI should react when a slot is taken by someone else.",
+    bullets: [
+      "Slot state updates move through Open, Selected, and Booked by Others.",
+      "The race-condition demo uses delayed state mutation to mimic real-world contention.",
+    ],
+    architecture: [
+      "[Client UI] pick slot 10:00",
+      "   │",
+      "   ▼",
+      "[Optimistic UI update]",
+      "   │",
+      "   ▼",
+      "[Supabase / Edge Function]",
+      "   │── Transaction lock",
+      "   │── Verify availability",
+      "   ▼",
+      "[Client resolution + refresh]",
+    ],
+  },
+  {
+    id: "contact",
+    badge: "Interactive Analytics",
+    badgeSecondary: "Adaptive Budget",
+    stack: ["Flutter", "Dart", "Offline-first", "Local Storage"],
+    linkLabel: "View repository",
+    linkHref: "https://github.com/thendy18",
+    title: "MoneyNote - Financial Tracker Application",
+    description:
+      "A responsive ledger UI with adaptive budget feedback, clear threshold states, and a touch-friendly slider for monitoring spend pressure in real time.",
+    bullets: [
+      "Visual budget progress shifts from emerald to warning yellow to red.",
+      "Optimized for recruiter-friendly scanning on mobile and desktop.",
+    ],
+    architecture: [
+      "[Slider input]",
+      "   │",
+      "   ▼",
+      "[Spend state]",
+      "   │",
+      "   ├── ratio < 50%  => emerald",
+      "   ├── ratio < 80%  => yellow",
+      "   └── ratio >= 80% => red",
+      "   ▼",
+      "[Dynamic alert banner]",
+    ],
+  },
+] as const;
+
+const competencies = [
+  {
+    title: "Languages & Frameworks",
+    items: ["TypeScript", "JavaScript", "Dart", "React", "Next.js", "Flutter", "Tailwind CSS"],
+  },
+  {
+    title: "Data, State & Storage",
+    items: ["Supabase", "PostgreSQL", "React State", "Local Storage", "Offline-first"],
+  },
+  {
+    title: "Compliance, Standards & Tooling",
+    items: ["PPh 21 / TER", "PP 58/2023", "Coretax XML", "Git", "Vercel"],
+  },
+] as const;
+
 export default function PortfolioPage() {
-  // 1. Sandbox: PPh 21 TER Engine
-  const [bruto, setBruto] = useState<number>(8500000);
-  const getTER = (val: number) => {
-    if (val <= 5400000) return { rate: 0, tax: 0 };
-    if (val <= 5650000) return { rate: 0.25, tax: val * 0.0025 };
-    if (val <= 5950000) return { rate: 0.5, tax: val * 0.005 };
-    if (val <= 10000000) return { rate: 1.5, tax: val * 0.015 };
-    return { rate: 3.0, tax: val * 0.03 };
-  };
-  const terResult = getTER(bruto);
-
-  // 2. Sandbox: Thendy Hair Garage Anti-Double Booking
-  const [selectedSlot, setSelectedSlot] = useState<string | null>("15:00");
-  const slots = [
-    { time: "13:00", available: true },
-    { time: "14:00", available: false },
-    { time: "15:00", available: true },
-    { time: "16:30", available: true },
-  ];
-
-  // 3. Sandbox: MoneyNote Budget Allocation
-  const [budgetLimit] = useState<number>(5000000);
-  const [spent, setSpent] = useState<number>(3200000);
-  const spentPct = Math.min(Math.round((spent / budgetLimit) * 100), 100);
-
   return (
-    <div className="min-h-screen bg-[#090d16] text-slate-100 selection:bg-emerald-500 selection:text-black">
-      {/* Navigation */}
-      <header className="sticky top-0 z-50 backdrop-blur-md bg-[#090d16]/80 border-b border-slate-800/80 px-6 py-4">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <span className="font-bold text-lg tracking-tight">Thendy Hose</span>
-            <span className="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-0.5 rounded-full flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+    <main className="relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-x-0 top-[-12rem] h-[28rem] bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.18),_transparent_60%)]" />
+      <div className="pointer-events-none absolute left-1/2 top-40 h-72 w-72 -translate-x-1/2 rounded-full bg-emerald-500/10 blur-3xl" />
+
+      <header className="sticky top-0 z-50 border-b border-slate-800/80 bg-[#090d16]/85 backdrop-blur-xl">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+          <a
+            href="#top"
+            className="inline-flex items-center gap-3 text-sm font-semibold text-white"
+            aria-label="Back to top"
+          >
+            <span className="tracking-tight">Thendy Hose</span>
+            <span className="hidden items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-300 sm:inline-flex">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
               Open for IT Advisory Internship
             </span>
-          </div>
-          <div className="flex items-center space-x-4 text-sm text-slate-400">
-            <Link href="https://github.com/thendy18" target="_blank" className="hover:text-white flex items-center gap-1 transition">
-              <ExternalLink className="w-4 h-4" /> GitHub
-            </Link>
-            <Link href="https://www.linkedin.com/in/thendy-hose-8356262ba" target="_blank" className="hover:text-white flex items-center gap-1 transition">
-              <Link2 className="w-4 h-4" /> LinkedIn
-            </Link>
+          </a>
+
+          <div className="flex items-center gap-2 sm:gap-3">
+            <a
+              href="https://github.com/thendy18"
+              target="_blank"
+              rel="noreferrer"
+              className="hidden items-center gap-2 rounded-full border border-slate-800 bg-slate-950/70 px-3 py-2 text-sm text-slate-300 transition hover:border-emerald-500/50 hover:text-white sm:inline-flex"
+            >
+              <ExternalLink className="h-4 w-4" />
+              GitHub
+            </a>
+            <a
+              href="https://www.linkedin.com/in/thendy-hose-8356262ba"
+              target="_blank"
+              rel="noreferrer"
+              className="hidden items-center gap-2 rounded-full border border-slate-800 bg-slate-950/70 px-3 py-2 text-sm text-slate-300 transition hover:border-emerald-500/50 hover:text-white md:inline-flex"
+            >
+              <Link2 className="h-4 w-4" />
+              LinkedIn
+            </a>
+            <a
+              href="mailto:thendyhose@gmail.com?subject=CV%20Request"
+              className="inline-flex items-center gap-2 rounded-full bg-emerald-500 px-3 py-2 text-sm font-semibold text-[#08111c] transition hover:brightness-110 sm:px-4"
+            >
+              <ArrowDownToLine className="h-4 w-4" />
+              <span className="hidden sm:inline">Request CV</span>
+              <span className="sm:hidden">CV</span>
+            </a>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="max-w-5xl mx-auto px-6 py-16 space-y-24">
-        {/* Hero Section */}
-        <section className="space-y-6">
-          <div className="inline-block px-3 py-1 rounded-md text-xs font-mono bg-slate-800/60 border border-slate-700 text-emerald-400">
-            Practical Systems Builder & Software Engineer
+      <div
+        id="top"
+        className="mx-auto flex w-full max-w-7xl flex-col gap-20 px-4 py-12 sm:px-6 lg:px-8 lg:py-16"
+      >
+        <section className="grid gap-10 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
+          <div className="space-y-7">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-950/70 px-4 py-2 text-xs font-medium text-slate-300">
+              <Sparkles className="h-4 w-4 text-emerald-400" />
+              Practical Systems Builder & Software Engineer
+            </div>
+
+            <div className="space-y-5">
+              <p className="max-w-3xl text-balance text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
+                I don&apos;t just build software. I build tools for problems I
+                actually see.
+              </p>
+              <p className="max-w-3xl text-pretty text-base leading-8 text-slate-300 sm:text-lg">
+                From running a live booking system for Thendy Hair Garage to
+                replacing clunky tax spreadsheets with automated web engines. I
+                turn messy manual workflows into clean, reliable apps.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <a
+                href="https://github.com/thendy18"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-950/70 px-4 py-2 text-sm text-slate-200 transition hover:border-emerald-500/50 hover:text-white"
+              >
+                <ExternalLink className="h-4 w-4" />
+                GitHub
+              </a>
+              <a
+                href="https://www.linkedin.com/in/thendy-hose-8356262ba"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-950/70 px-4 py-2 text-sm text-slate-200 transition hover:border-emerald-500/50 hover:text-white"
+              >
+                <Link2 className="h-4 w-4" />
+                LinkedIn
+              </a>
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
+              >
+                Contact
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-            "I don't just build software. I build tools for problems I actually see."
-          </h1>
-          <p className="text-lg text-slate-400 max-w-3xl leading-relaxed">
-            From running a live booking system for Thendy Hair Garage to replacing clunky tax spreadsheets with automated web engines. I turn messy manual workflows into clean, reliable apps.
-          </p>
+
+          <aside className="rounded-3xl border border-slate-800 bg-slate-950/70 p-6 shadow-2xl shadow-emerald-950/10">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-medium text-slate-200">
+                  Screening Proof
+                </p>
+                <ShieldCheck className="h-5 w-5 text-emerald-400" />
+              </div>
+              <div className="grid gap-3 text-sm text-slate-300">
+                <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
+                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
+                    Focus
+                  </p>
+                  <p className="mt-2 leading-7">
+                    Enterprise IT, compliance logic, and operational systems
+                    that can survive real-world edge cases.
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
+                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
+                    KPI
+                  </p>
+                  <p className="mt-2 leading-7">
+                    Fast scanning, live interaction, and strong technical
+                    credibility within the first 60 seconds.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </aside>
         </section>
 
-        {/* Featured Case Studies */}
-        <section className="space-y-16">
-          <div className="border-b border-slate-800 pb-4">
-            <h2 className="text-2xl font-bold text-white tracking-tight">Featured Case Studies</h2>
-            <p className="text-slate-400 text-sm">Real problem-solving architectures with interactive logic sandboxes.</p>
+        <section id="work" className="space-y-6">
+          <div className="flex flex-col gap-2">
+            <p className="text-xs uppercase tracking-[0.32em] text-emerald-400">
+              Projects
+            </p>
+            <h2 className="text-2xl font-semibold text-white sm:text-3xl">
+              Three interactive proof-of-work systems
+            </h2>
+            <p className="max-w-3xl text-sm leading-7 text-slate-400 sm:text-base">
+              Each project pair combines business context, architecture notes,
+              and a client-side sandbox to show how I translate messy workflows
+              into concrete systems.
+            </p>
           </div>
 
-          {/* Project 1: PPh 21 Coretax */}
-          <div className="grid md:grid-cols-12 gap-8 items-start bg-slate-900/40 p-8 rounded-2xl border border-slate-800">
-            <div className="md:col-span-7 space-y-4">
-              <div className="flex items-center gap-2 text-xs font-mono text-emerald-400">
-                <span>Next.js 16</span> • <span>Supabase</span> • <span>React-PDF</span> • <span>ExcelJS</span>
-              </div>
-              <h3 className="text-2xl font-bold text-white">Payroll & Coretax-Aligned PPh 21 Engine</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                Built to solve the headache of individual tax consultants and small finance teams relying on rigid, paid Excel templates. Automates monthly TER rates, December reconciliations, and direct proof-of-withholding generation.
-              </p>
-              <ul className="space-y-2 text-xs text-slate-300">
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Automatic Category A, B, and C Effective Rate calculation according to latest PP 58 regulations.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Integrated batch spreadsheet parsing and automated client-side PDF proof generation.</span>
-                </li>
-              </ul>
-              <div className="pt-2 flex gap-3">
-                <Link href="https://github.com/thendy18/payroll-coretax" target="_blank" className="text-xs bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg border border-slate-700 flex items-center gap-1.5 transition">
-                  <ExternalLink className="w-3.5 h-3.5" /> View Repo
-                </Link>
-              </div>
-            </div>
-
-            {/* Sandbox 1 */}
-            <div className="md:col-span-5 bg-slate-950/80 p-5 rounded-xl border border-slate-800 space-y-4">
-              <div className="flex items-center justify-between text-xs text-slate-400 pb-2 border-b border-slate-800">
-                <span className="flex items-center gap-1.5 font-medium text-slate-200">
-                  <Calculator className="w-4 h-4 text-emerald-400" /> Live TER Calculation Logic
-                </span>
-                <span className="font-mono text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">Interactive Sandbox</span>
-              </div>
-              <div className="space-y-1">
-                <label className="text-[11px] text-slate-400">Monthly Gross Salary (Rp)</label>
-                <input 
-                  type="number" 
-                  step="500000"
-                  value={bruto} 
-                  onChange={(e) => setBruto(Number(e.target.value))}
-                  className="w-full bg-slate-900 border border-slate-700 text-white rounded-lg p-2 text-sm focus:outline-none focus:border-emerald-500 font-mono"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-2 pt-2 text-xs">
-                <div className="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800/80">
-                  <div className="text-slate-500 text-[10px]">Effective Rate (TER A)</div>
-                  <div className="text-base font-bold text-white font-mono mt-0.5">{terResult.rate}%</div>
-                </div>
-                <div className="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800/80">
-                  <div className="text-slate-500 text-[10px]">Monthly Tax Cut</div>
-                  <div className="text-base font-bold text-emerald-400 font-mono mt-0.5">Rp {terResult.tax.toLocaleString("id-ID")}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Project 2: Thendy Hair Garage */}
-          <div className="grid md:grid-cols-12 gap-8 items-start bg-slate-900/40 p-8 rounded-2xl border border-slate-800">
-            <div className="md:col-span-7 space-y-4">
-              <div className="flex items-center gap-2 text-xs font-mono text-emerald-400">
-                <span>Next.js</span> • <span>Supabase SSR</span> • <span>Tailwind CSS</span> • <span>Live Production</span>
-              </div>
-              <h3 className="text-2xl font-bold text-white">Thendy Hair Garage – Operational Scheduling Engine</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                Created to eliminate customer wait-time and build operational trust for my own barbershop. Replaces walk-in uncertainty with real-time slot bookings and an owner dashboard to configure dynamic working hours.
-              </p>
-              <ul className="space-y-2 text-xs text-slate-300">
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Deterministic slot availability preventing conflicting overlapping bookings.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Private admin portal with authenticated access to dynamically manage slot capacities.</span>
-                </li>
-              </ul>
-              <div className="pt-2 flex gap-3">
-                <Link href="https://hairgarage.vercel.app/" target="_blank" className="text-xs bg-emerald-500 hover:bg-emerald-400 text-black font-semibold px-4 py-2 rounded-lg flex items-center gap-1.5 transition">
-                  <ExternalLink className="w-3.5 h-3.5" /> Launch Live App
-                </Link>
-                <Link href="https://github.com/thendy18/thendy-hair-garage" target="_blank" className="text-xs bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg border border-slate-700 flex items-center gap-1.5 transition">
-                  <ExternalLink className="w-3.5 h-3.5" /> View Repo
-                </Link>
-              </div>
-            </div>
-
-            {/* Sandbox 2 */}
-            <div className="md:col-span-5 bg-slate-950/80 p-5 rounded-xl border border-slate-800 space-y-4">
-              <div className="flex items-center justify-between text-xs text-slate-400 pb-2 border-b border-slate-800">
-                <span className="flex items-center gap-1.5 font-medium text-slate-200">
-                  <Calendar className="w-4 h-4 text-emerald-400" /> Slot Concurrency Simulator
-                </span>
-                <span className="font-mono text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">Interactive Sandbox</span>
-              </div>
-              <p className="text-[11px] text-slate-400">Simulating real-time slot conflict resolution:</p>
-              <div className="grid grid-cols-2 gap-2">
-                {slots.map((slot) => (
-                  <button
-                    key={slot.time}
-                    disabled={!slot.available}
-                    onClick={() => setSelectedSlot(slot.time)}
-                    className={`py-2 px-3 rounded-lg text-xs font-mono font-medium transition border flex items-center justify-between ${
-                      !slot.available 
-                        ? "bg-slate-900/40 text-slate-600 border-slate-800/50 cursor-not-allowed line-through"
-                        : selectedSlot === slot.time
-                        ? "bg-emerald-500/10 border-emerald-500 text-emerald-300"
-                        : "bg-slate-900 border-slate-700 text-slate-300 hover:border-slate-600"
-                    }`}
-                  >
-                    <span>{slot.time}</span>
-                    <span className="text-[9px] uppercase">{!slot.available ? "Booked" : selectedSlot === slot.time ? "Selected" : "Open"}</span>
-                  </button>
-                ))}
-              </div>
-              <div className="text-[11px] text-slate-400 bg-slate-900/60 p-2.5 rounded-lg border border-slate-800 font-mono">
-                Status: <span className="text-emerald-400 font-semibold">{selectedSlot ? `Slot ${selectedSlot} lock acquired` : "Select a slot"}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Project 3: MoneyNote */}
-          <div className="grid md:grid-cols-12 gap-8 items-start bg-slate-900/40 p-8 rounded-2xl border border-slate-800">
-            <div className="md:col-span-7 space-y-4">
-              <div className="flex items-center gap-2 text-xs font-mono text-emerald-400">
-                <span>Flutter</span> • <span>Dart</span> • <span>Mobile Client</span> • <span>Offline-First</span>
-              </div>
-              <h3 className="text-2xl font-bold text-white">MoneyNote – Financial Tracker Application</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                Mobile personal ledger engineered to keep track of daily cashflows with clean categorization, budget threshold visual alerts, and zero navigation friction.
-              </p>
-              <ul className="space-y-2 text-xs text-slate-300">
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Structured relational ledger tracking expenses and incomes with instant aggregation.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Visual budget exhaustion model warning users before overspending occurs.</span>
-                </li>
-              </ul>
-              <div className="pt-2 flex gap-3">
-                <Link href="https://github.com/thendy18" target="_blank" className="text-xs bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg border border-slate-700 flex items-center gap-1.5 transition">
-                  <ExternalLink className="w-3.5 h-3.5" /> View Repo / APK
-                </Link>
-              </div>
-            </div>
-
-            {/* Sandbox 3 */}
-            <div className="md:col-span-5 bg-slate-950/80 p-5 rounded-xl border border-slate-800 space-y-4">
-              <div className="flex items-center justify-between text-xs text-slate-400 pb-2 border-b border-slate-800">
-                <span className="flex items-center gap-1.5 font-medium text-slate-200">
-                  <PieChart className="w-4 h-4 text-emerald-400" /> Budget Utilization Visualizer
-                </span>
-                <span className="font-mono text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">Interactive Sandbox</span>
-              </div>
-              <div className="space-y-1">
-                <div className="flex justify-between text-[11px] text-slate-400">
-                  <span>Simulated Spend: Rp {spent.toLocaleString("id-ID")}</span>
-                  <span>Budget: Rp 5.000.000</span>
-                </div>
-                <input 
-                  type="range" 
-                  min="0" 
-                  max="6000000" 
-                  step="200000"
-                  value={spent} 
-                  onChange={(e) => setSpent(Number(e.target.value))}
-                  className="w-full accent-emerald-500 bg-slate-800 cursor-pointer"
-                />
-              </div>
-              <div className="space-y-1.5 pt-1">
-                <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                  <div 
-                    className={`h-full transition-all duration-300 ${spent > budgetLimit ? "bg-rose-500" : spentPct > 75 ? "bg-amber-400" : "bg-emerald-500"}`}
-                    style={{ width: `${Math.min((spent / budgetLimit) * 100, 100)}%` }}
-                  ></div>
-                </div>
-                <div className="flex justify-between text-[10px] font-mono text-slate-400">
-                  <span>Usage: {Math.round((spent / budgetLimit) * 100)}%</span>
-                  <span className={spent > budgetLimit ? "text-rose-400 font-bold" : "text-slate-400"}>
-                    {spent > budgetLimit ? "OVERBUDGET" : `Remaining: Rp ${(budgetLimit - spent).toLocaleString("id-ID")}`}
+          <div className="space-y-6">
+            <article className="grid gap-6 rounded-3xl border border-slate-800 bg-[#090d16]/80 p-5 shadow-[0_24px_80px_rgba(2,6,23,0.45)] lg:grid-cols-[1fr_0.92fr] lg:p-7">
+              <div className="space-y-5">
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-300">
+                    {projects[0].badge}
+                  </span>
+                  <span className="rounded-full border border-slate-700 bg-slate-950/70 px-3 py-1 text-xs font-medium text-slate-300">
+                    {projects[0].badgeSecondary}
                   </span>
                 </div>
+                <h3 className="text-2xl font-semibold text-white">
+                  {projects[0].title}
+                </h3>
+                <p className="max-w-2xl text-sm leading-7 text-slate-300">
+                  {projects[0].description}
+                </p>
+                <ul className="space-y-3">
+                  {projects[0].bullets.map((bullet) => (
+                    <li key={bullet} className="flex gap-3 text-sm text-slate-300">
+                      <span className="mt-1 h-2.5 w-2.5 rounded-full bg-emerald-400" />
+                      <span className="leading-7">{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="flex flex-wrap gap-2">
+                  {projects[0].stack.map((item) => (
+                    <span key={item} className="rounded-full border border-slate-700 bg-slate-950/70 px-2.5 py-1 text-xs text-slate-400">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+                <a
+                  href={projects[0].linkHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-300 transition hover:text-emerald-200"
+                >
+                  {projects[0].linkLabel}
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+                <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
+                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
+                    Architecture Note
+                  </p>
+                  <pre className="mt-3 overflow-x-auto text-xs leading-6 text-slate-300">
+                    {projects[0].architecture.join("\n")}
+                  </pre>
+                </div>
               </div>
-            </div>
+              <TaxSandbox />
+            </article>
+
+            <article className="grid gap-6 rounded-3xl border border-slate-800 bg-[#090d16]/80 p-5 shadow-[0_24px_80px_rgba(2,6,23,0.45)] lg:grid-cols-[1fr_0.92fr] lg:p-7">
+              <div className="space-y-5">
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-300">
+                    {projects[1].badge}
+                  </span>
+                  <span className="rounded-full border border-slate-700 bg-slate-950/70 px-3 py-1 text-xs font-medium text-slate-300">
+                    {projects[1].badgeSecondary}
+                  </span>
+                </div>
+                <h3 className="text-2xl font-semibold text-white">
+                  {projects[1].title}
+                </h3>
+                <p className="max-w-2xl text-sm leading-7 text-slate-300">
+                  {projects[1].description}
+                </p>
+                <ul className="space-y-3">
+                  {projects[1].bullets.map((bullet) => (
+                    <li key={bullet} className="flex gap-3 text-sm text-slate-300">
+                      <span className="mt-1 h-2.5 w-2.5 rounded-full bg-emerald-400" />
+                      <span className="leading-7">{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="flex flex-wrap gap-2">
+                  {projects[1].stack.map((item) => (
+                    <span key={item} className="rounded-full border border-slate-700 bg-slate-950/70 px-2.5 py-1 text-xs text-slate-400">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+                <a
+                  href={projects[1].linkHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-300 transition hover:text-emerald-200"
+                >
+                  {projects[1].linkLabel}
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+                <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
+                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
+                    Architecture Note
+                  </p>
+                  <pre className="mt-3 overflow-x-auto text-xs leading-6 text-slate-300">
+                    {projects[1].architecture.join("\n")}
+                  </pre>
+                </div>
+              </div>
+              <BookingSandbox />
+            </article>
+
+            <article className="grid gap-6 rounded-3xl border border-slate-800 bg-[#090d16]/80 p-5 shadow-[0_24px_80px_rgba(2,6,23,0.45)] lg:grid-cols-[1fr_0.92fr] lg:p-7">
+              <div className="space-y-5">
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-300">
+                    {projects[2].badge}
+                  </span>
+                  <span className="rounded-full border border-slate-700 bg-slate-950/70 px-3 py-1 text-xs font-medium text-slate-300">
+                    {projects[2].badgeSecondary}
+                  </span>
+                </div>
+                <h3 className="text-2xl font-semibold text-white">
+                  {projects[2].title}
+                </h3>
+                <p className="max-w-2xl text-sm leading-7 text-slate-300">
+                  {projects[2].description}
+                </p>
+                <ul className="space-y-3">
+                  {projects[2].bullets.map((bullet) => (
+                    <li key={bullet} className="flex gap-3 text-sm text-slate-300">
+                      <span className="mt-1 h-2.5 w-2.5 rounded-full bg-emerald-400" />
+                      <span className="leading-7">{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="flex flex-wrap gap-2">
+                  {projects[2].stack.map((item) => (
+                    <span key={item} className="rounded-full border border-slate-700 bg-slate-950/70 px-2.5 py-1 text-xs text-slate-400">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+                <a
+                  href={projects[2].linkHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-300 transition hover:text-emerald-200"
+                >
+                  {projects[2].linkLabel}
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+                <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
+                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
+                    Architecture Note
+                  </p>
+                  <pre className="mt-3 overflow-x-auto text-xs leading-6 text-slate-300">
+                    {projects[2].architecture.join("\n")}
+                  </pre>
+                </div>
+              </div>
+              <BudgetSandbox />
+            </article>
           </div>
         </section>
 
-        {/* Competencies Matrix */}
-        <section className="space-y-6 pt-6 border-t border-slate-800">
-          <h2 className="text-xl font-bold text-white tracking-tight">Technical & Systems Competencies</h2>
-          <div className="grid sm:grid-cols-3 gap-4 text-xs">
-            <div className="p-4 rounded-xl bg-slate-900/40 border border-slate-800 space-y-2">
-              <span className="font-semibold text-slate-200 block">Languages & Frameworks</span>
-              <p className="text-slate-400 leading-relaxed">TypeScript, JavaScript, Dart, React, Next.js, Flutter, Node.js.</p>
-            </div>
-            <div className="p-4 rounded-xl bg-slate-900/40 border border-slate-800 space-y-2">
-              <span className="font-semibold text-slate-200 block">Data, State & Storage</span>
-              <p className="text-slate-400 leading-relaxed">Supabase, PostgreSQL, Zustand, Local Storage.</p>
-            </div>
-            <div className="p-4 rounded-xl bg-slate-900/40 border border-slate-800 space-y-2">
-              <span className="font-semibold text-slate-200 block">Compliance & Tools</span>
-              <p className="text-slate-400 leading-relaxed">Coretax/TER Logic, ExcelJS, React-PDF, Git, Vercel.</p>
-            </div>
+        <section id="expertise" className="space-y-6">
+          <div className="space-y-2">
+            <p className="text-xs uppercase tracking-[0.32em] text-emerald-400">
+              Expertise
+            </p>
+            <h2 className="text-2xl font-semibold text-white sm:text-3xl">
+              Technical competencies matrix
+            </h2>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-3">
+            {competencies.map((group) => (
+              <div
+                key={group.title}
+                className="rounded-3xl border border-slate-800 bg-slate-950/70 p-6"
+              >
+                <h3 className="text-base font-semibold text-white">{group.title}</h3>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {group.items.map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-slate-700 bg-slate-900/80 px-3 py-1 text-sm text-slate-300"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </section>
-      </main>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-800/80 py-8 text-center text-xs text-slate-500">
-        <p>© Thendy Hose. Built with Next.js & Tailwind CSS.</p>
-      </footer>
-    </div>
+        <footer
+          id="contact"
+          className="grid gap-6 rounded-3xl border border-slate-800 bg-slate-950/70 p-6 sm:p-8 lg:grid-cols-[1fr_auto]"
+        >
+          <div className="space-y-2">
+            <p className="text-xs uppercase tracking-[0.32em] text-emerald-400">
+              Contact
+            </p>
+            <h2 className="text-2xl font-semibold text-white">
+              Ready for recruiter screening or technical review.
+            </h2>
+            <p className="max-w-2xl text-sm leading-7 text-slate-400">
+              Email, GitHub, and LinkedIn links are kept visible so a reviewer
+              can move from proof-of-work to direct verification without extra
+              clicks.
+            </p>
+            <p className="pt-4 text-xs text-slate-500">
+              © 2026 Thendy Hose. Built with Next.js &amp; Tailwind CSS.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <a
+              href="mailto:thendyhose@gmail.com"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-[#08111c] transition hover:brightness-110"
+            >
+              <Mail className="h-4 w-4" />
+              thendyhose@gmail.com
+            </a>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="https://github.com/thendy18"
+                target="_blank"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/80 px-4 py-2 text-sm text-slate-200 transition hover:border-emerald-500/50"
+              >
+                <ExternalLink className="h-4 w-4" />
+                GitHub
+              </Link>
+              <Link
+                href="https://www.linkedin.com/in/thendy-hose-8356262ba"
+                target="_blank"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/80 px-4 py-2 text-sm text-slate-200 transition hover:border-emerald-500/50"
+              >
+                <Link2 className="h-4 w-4" />
+                LinkedIn
+              </Link>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </main>
   );
 }
