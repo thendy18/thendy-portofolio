@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import {
   AlertTriangle,
   CalendarClock,
@@ -10,7 +10,7 @@ import {
   TrendingDown,
 } from "lucide-react";
 
-type SlotTime = "10:00" | "11:00" | "12:00";
+type SlotTime = "13:00" | "14:00" | "15:00" | "16:30";
 type SlotStatus = "Open" | "Selected" | "Booked by Others";
 
 const currency = new Intl.NumberFormat("id-ID", {
@@ -19,22 +19,12 @@ const currency = new Intl.NumberFormat("id-ID", {
   maximumFractionDigits: 0,
 });
 
-const terBands = [
-  { max: 5_400_000, rate: 0 },
-  { max: 5_650_000, rate: 0.0025 },
-  { max: 5_950_000, rate: 0.005 },
-  { max: 6_300_000, rate: 0.0075 },
-  { max: 6_950_000, rate: 0.01 },
-  { max: 7_400_000, rate: 0.0125 },
-  { max: 10_000_000, rate: 0.015 },
-  { max: 15_000_000, rate: 0.0175 },
-  { max: 20_000_000, rate: 0.02 },
-  { max: 30_000_000, rate: 0.0225 },
-  { max: 50_000_000, rate: 0.025 },
-] as const;
-
 function getTerARate(grossSalary: number) {
-  return terBands.find((band) => grossSalary <= band.max)?.rate ?? 0.025;
+  if (grossSalary <= 5_400_000) return 0;
+  if (grossSalary <= 5_650_000) return 0.0025;
+  if (grossSalary <= 5_950_000) return 0.005;
+  if (grossSalary <= 10_000_000) return 0.015;
+  return 0.03;
 }
 
 function formatPercent(rate: number) {
@@ -59,17 +49,18 @@ function StatusPill({ status }: { status: SlotStatus }) {
 
 export function TaxSandbox() {
   const [grossSalary, setGrossSalary] = useState(8_500_000);
-  const terARate = getTerARate(grossSalary);
-  const taxDeduction = grossSalary * terARate;
+  const normalizedGrossSalary = Math.max(0, grossSalary);
+  const terARate = getTerARate(normalizedGrossSalary);
+  const taxDeduction = normalizedGrossSalary * terARate;
 
   return (
-    <aside className="rounded-3xl border border-slate-800 bg-slate-950/80 p-5">
+    <aside className="rounded-3xl border border-slate-800 bg-slate-950/80 p-6">
       <div className="flex items-center justify-between gap-3 border-b border-slate-800 pb-4">
         <div className="flex items-center gap-2">
           <CircleDollarSign className="h-5 w-5 text-emerald-400" />
           <div>
-            <p className="text-sm font-semibold text-white">TER A Live Calculator</p>
-            <p className="text-xs text-slate-500">Client-side compliance demo</p>
+          <p className="text-sm font-semibold text-white">PPh 21 TER Engine</p>
+            <p className="text-xs text-slate-500">PP 58/2023 client-side demo</p>
           </div>
         </div>
         <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold text-emerald-300">
@@ -85,11 +76,13 @@ export function TaxSandbox() {
           <input
             aria-label="Gaji Bruto Bulanan"
             type="number"
-            min={5_000_000}
+            min={0}
             max={50_000_000}
-            step={250_000}
+            step={500_000}
             value={grossSalary}
-            onChange={(event) => setGrossSalary(Number(event.target.value) || 0)}
+            onChange={(event) =>
+              setGrossSalary(Math.max(0, Number(event.target.value) || 0))
+            }
             className="w-full rounded-2xl border border-slate-700 bg-slate-900/80 px-4 py-3 text-base text-white outline-none transition focus:border-emerald-500"
           />
         </label>
@@ -99,9 +92,9 @@ export function TaxSandbox() {
           <input
             aria-label="Range gaji bruto bulanan"
             type="range"
-            min={5_000_000}
+            min={0}
             max={50_000_000}
-            step={250_000}
+            step={500_000}
             value={grossSalary}
             onChange={(event) => setGrossSalary(Number(event.target.value))}
             className="h-2 w-full cursor-pointer appearance-none rounded-full bg-slate-800 accent-emerald-500"
@@ -132,8 +125,8 @@ export function TaxSandbox() {
             Real-time summary
           </p>
           <p className="mt-2 text-sm leading-7 text-slate-300">
-            The calculator uses a static TER A lookup to show how gross salary
-            flows into a tax deduction outcome without a page refresh.
+            The calculator maps monthly gross salary to the Category A TER
+            bracket and updates the tax cut without a page refresh.
           </p>
         </div>
       </div>
@@ -142,45 +135,20 @@ export function TaxSandbox() {
 }
 
 export function BookingSandbox() {
-  const [slotStates, setSlotStates] = useState<Record<SlotTime, SlotStatus>>({
-    "10:00": "Open",
-    "11:00": "Open",
-    "12:00": "Open",
-  });
-  const timerRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (timerRef.current !== null) {
-        window.clearTimeout(timerRef.current);
-      }
-    };
-  }, []);
+  const [selectedSlot, setSelectedSlot] = useState<SlotTime | null>("15:00");
+  const slots: { time: SlotTime; available: boolean }[] = [
+    { time: "13:00", available: true },
+    { time: "14:00", available: false },
+    { time: "15:00", available: true },
+    { time: "16:30", available: true },
+  ];
 
   function handleSelect(time: SlotTime) {
-    setSlotStates((current) => ({
-      ...current,
-      [time]: "Selected",
-    }));
-
-    if (timerRef.current !== null) {
-      window.clearTimeout(timerRef.current);
-    }
-
-    if (time === "10:00") {
-      timerRef.current = window.setTimeout(() => {
-        setSlotStates((current) => ({
-          ...current,
-          "11:00": "Booked by Others",
-        }));
-      }, 3000);
-    }
+    setSelectedSlot(time);
   }
 
-  const slots: SlotTime[] = ["10:00", "11:00", "12:00"];
-
   return (
-    <aside className="rounded-3xl border border-slate-800 bg-slate-950/80 p-5">
+    <aside className="rounded-3xl border border-slate-800 bg-slate-950/80 p-6">
       <div className="flex items-center justify-between gap-3 border-b border-slate-800 pb-4">
         <div className="flex items-center gap-2">
           <CalendarClock className="h-5 w-5 text-emerald-400" />
@@ -198,29 +166,31 @@ export function BookingSandbox() {
 
       <div className="mt-5 space-y-4">
         <p className="text-sm leading-7 text-slate-400">
-          Select a slot to demonstrate optimistic booking, then watch one slot
-          flip to a conflict state after a delay.
+          Select an available slot to demonstrate a client-side booking lock.
         </p>
 
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {slots.map((time) => {
-            const status = slotStates[time];
-            const isBooked = status === "Booked by Others";
+            const status: SlotStatus = time.available
+              ? selectedSlot === time.time
+                ? "Selected"
+                : "Open"
+              : "Booked by Others";
 
             return (
               <button
-                key={time}
+                key={time.time}
                 type="button"
-                onClick={() => handleSelect(time)}
-                aria-label={`Select slot ${time}`}
-                disabled={isBooked}
+                onClick={() => handleSelect(time.time)}
+                aria-label={`Select slot ${time.time}`}
+                disabled={!time.available}
                 className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4 text-left transition hover:border-emerald-500/40 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-lg font-semibold text-white">{time}</p>
+                    <p className="text-lg font-semibold text-white">{time.time}</p>
                     <p className="mt-1 text-xs text-slate-500">
-                      {isBooked ? "Locked elsewhere" : "Tap to reserve"}
+                      {time.available ? "Tap to reserve" : "Booked"}
                     </p>
                   </div>
                   <Clock3 className="h-4 w-4 text-slate-400" />
@@ -240,9 +210,12 @@ export function BookingSandbox() {
             Real-time conflict marker
           </p>
           <p className="mt-2 leading-7 text-slate-400">
-            If you start with 10:00, the 11:00 slot will flip to{" "}
-            <span className="text-slate-200">Booked by Others</span> after 3
-            seconds to illustrate a race condition.
+            Slot yang tersedia langsung berpindah ke status{" "}
+            <span className="text-slate-200">lock acquired</span>, sedangkan
+            slot booked tetap non-interactive.
+          </p>
+          <p className="mt-3 border-t border-slate-800 pt-3 font-mono text-xs text-emerald-300">
+            Status: {selectedSlot ? `Slot ${selectedSlot} lock acquired` : "Select a slot"}
           </p>
         </div>
       </div>
@@ -252,11 +225,11 @@ export function BookingSandbox() {
 
 export function BudgetSandbox() {
   const [currentSpend, setCurrentSpend] = useState(3_200_000);
-  const budgetLimit = 10_000_000;
+  const budgetLimit = 5_000_000;
   const ratio = currentSpend / budgetLimit;
-  const isSafe = ratio < 0.5;
-  const isWarning = ratio >= 0.5 && ratio < 0.8;
-  const isDanger = ratio >= 0.8;
+  const isSafe = currentSpend <= budgetLimit * 0.75;
+  const isWarning = currentSpend > budgetLimit * 0.75 && currentSpend <= budgetLimit;
+  const isDanger = currentSpend > budgetLimit;
   const progressColor = isSafe
     ? "bg-emerald-500"
     : isWarning
@@ -264,7 +237,7 @@ export function BudgetSandbox() {
       : "bg-rose-500";
 
   return (
-    <aside className="rounded-3xl border border-slate-800 bg-slate-950/80 p-5">
+    <aside className="rounded-3xl border border-slate-800 bg-slate-950/80 p-6">
       <div className="flex items-center justify-between gap-3 border-b border-slate-800 pb-4">
         <div className="flex items-center gap-2">
           <TrendingDown className="h-5 w-5 text-emerald-400" />
@@ -308,7 +281,7 @@ export function BudgetSandbox() {
             aria-label="Pengeluaran bulan ini"
             type="range"
             min={0}
-            max={budgetLimit}
+            max={6_000_000}
             step={100_000}
             value={currentSpend}
             onChange={(event) => setCurrentSpend(Number(event.target.value))}
@@ -331,18 +304,17 @@ export function BudgetSandbox() {
 
         {isDanger ? (
           <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 p-4 text-sm text-rose-100">
-            <p className="font-semibold">Budget is in the danger zone.</p>
+            <p className="font-semibold">Overbudget alert</p>
             <p className="mt-2 leading-7">
-              This state is meant to show an immediate visual warning when spend
-              pressure gets close to the ceiling.
+              Spending is {currency.format(currentSpend - budgetLimit)} above the
+              monthly limit.
             </p>
           </div>
         ) : isWarning ? (
           <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-100">
-            <p className="font-semibold">Budget is approaching the limit.</p>
+            <p className="font-semibold">Warning threshold</p>
             <p className="mt-2 leading-7">
-              Recruiters can see the threshold logic react without page reloads
-              or external state.
+              Allocation has crossed 75% of the available budget.
             </p>
           </div>
         ) : (

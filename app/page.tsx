@@ -140,7 +140,7 @@ export default function PortfolioPage() {
             <a
               href="https://github.com/thendy18"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="hidden items-center gap-2 rounded-full border border-slate-800 bg-slate-950/70 px-3 py-2 text-sm text-slate-300 transition hover:border-emerald-500/50 hover:text-white sm:inline-flex"
             >
               <ExternalLink className="h-4 w-4" />
@@ -149,7 +149,7 @@ export default function PortfolioPage() {
             <a
               href="https://www.linkedin.com/in/thendy-hose-8356262ba"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="hidden items-center gap-2 rounded-full border border-slate-800 bg-slate-950/70 px-3 py-2 text-sm text-slate-300 transition hover:border-emerald-500/50 hover:text-white md:inline-flex"
             >
               <Link2 className="h-4 w-4" />
@@ -169,7 +169,7 @@ export default function PortfolioPage() {
 
       <div
         id="top"
-        className="mx-auto flex w-full max-w-7xl flex-col gap-20 px-4 py-12 sm:px-6 lg:px-8 lg:py-16"
+        className="mx-auto flex w-full max-w-7xl flex-col gap-24 px-4 py-14 sm:px-6 lg:px-8 lg:py-20"
       >
         <section className="grid gap-10 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
           <div className="space-y-7">
@@ -267,8 +267,8 @@ export default function PortfolioPage() {
           </div>
 
           <div className="space-y-6">
-            <article className="grid gap-6 rounded-3xl border border-slate-800 bg-[#090d16]/80 p-5 shadow-[0_24px_80px_rgba(2,6,23,0.45)] lg:grid-cols-[1fr_0.92fr] lg:p-7">
-              <div className="space-y-5">
+            <article className="grid gap-8 rounded-3xl border border-slate-800 bg-[#090d16]/80 p-6 shadow-[0_24px_80px_rgba(2,6,23,0.45)] lg:grid-cols-[1fr_0.92fr] lg:gap-10 lg:p-8">
+              <div className="min-w-0 space-y-6">
                 <div className="flex flex-wrap items-center gap-3">
                   <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-300">
                     {projects[0].badge}
@@ -301,7 +301,7 @@ export default function PortfolioPage() {
                 <a
                   href={projects[0].linkHref}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-300 transition hover:text-emerald-200"
                 >
                   {projects[0].linkLabel}
@@ -316,11 +316,13 @@ export default function PortfolioPage() {
                   </pre>
                 </div>
               </div>
-              <TaxSandbox />
+              <div className="min-w-0">
+                <TaxSandbox />
+              </div>
             </article>
 
-            <article className="grid gap-6 rounded-3xl border border-slate-800 bg-[#090d16]/80 p-5 shadow-[0_24px_80px_rgba(2,6,23,0.45)] lg:grid-cols-[1fr_0.92fr] lg:p-7">
-              <div className="space-y-5">
+            <article className="grid gap-8 rounded-3xl border border-slate-800 bg-[#090d16]/80 p-6 shadow-[0_24px_80px_rgba(2,6,23,0.45)] lg:grid-cols-[1fr_0.92fr] lg:gap-10 lg:p-8">
+              <div className="min-w-0 space-y-6">
                 <div className="flex flex-wrap items-center gap-3">
                   <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-300">
                     {projects[1].badge}
@@ -353,7 +355,7 @@ export default function PortfolioPage() {
                 <a
                   href={projects[1].linkHref}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-300 transition hover:text-emerald-200"
                 >
                   {projects[1].linkLabel}
@@ -368,11 +370,13 @@ export default function PortfolioPage() {
                   </pre>
                 </div>
               </div>
-              <BookingSandbox />
+              <div className="min-w-0">
+                <BookingSandbox />
+              </div>
             </article>
 
-            <article className="grid gap-6 rounded-3xl border border-slate-800 bg-[#090d16]/80 p-5 shadow-[0_24px_80px_rgba(2,6,23,0.45)] lg:grid-cols-[1fr_0.92fr] lg:p-7">
-              <div className="space-y-5">
+            <article className="grid gap-8 rounded-3xl border border-slate-800 bg-[#090d16]/80 p-6 shadow-[0_24px_80px_rgba(2,6,23,0.45)] lg:grid-cols-[1fr_0.92fr] lg:gap-10 lg:p-8">
+              <div className="min-w-0 space-y-6">
                 <div className="flex flex-wrap items-center gap-3">
                   <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-300">
                     {projects[2].badge}
@@ -405,7 +409,7 @@ export default function PortfolioPage() {
                 <a
                   href={projects[2].linkHref}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-300 transition hover:text-emerald-200"
                 >
                   {projects[2].linkLabel}
@@ -420,7 +424,9 @@ export default function PortfolioPage() {
                   </pre>
                 </div>
               </div>
-              <BudgetSandbox />
+              <div className="min-w-0">
+                <BudgetSandbox />
+              </div>
             </article>
           </div>
         </section>
@@ -490,6 +496,7 @@ export default function PortfolioPage() {
               <Link
                 href="https://github.com/thendy18"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/80 px-4 py-2 text-sm text-slate-200 transition hover:border-emerald-500/50"
               >
                 <ExternalLink className="h-4 w-4" />
@@ -498,6 +505,7 @@ export default function PortfolioPage() {
               <Link
                 href="https://www.linkedin.com/in/thendy-hose-8356262ba"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/80 px-4 py-2 text-sm text-slate-200 transition hover:border-emerald-500/50"
               >
                 <Link2 className="h-4 w-4" />
