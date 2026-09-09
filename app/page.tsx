@@ -6,7 +6,6 @@ import {
   ExternalLink,
   Link2,
   Mail,
-  ShieldCheck,
   Sparkles,
 } from "lucide-react";
 
@@ -17,6 +16,7 @@ import {
 } from "./components/portfolio-sandboxes";
 import { RippleButton } from "./components/ripple-button";
 import { ProjectCarousel } from "./components/project-carousel";
+import { ExpertiseOrbit } from "./components/ui/expertise-orbit";
 
 const projects = [
   {
@@ -66,80 +66,63 @@ const projects = [
   },
 ] as const;
 
-const competencies = [
-  {
-    title: "Languages & Frameworks",
-    items: ["TypeScript", "JavaScript", "Dart", "React", "Next.js", "Flutter", "Tailwind CSS"],
-  },
-  {
-    title: "Data, State & Storage",
-    items: ["Supabase", "PostgreSQL", "React State", "Local Storage", "Offline-first"],
-  },
-  {
-    title: "Compliance, Standards & Tooling",
-    items: ["PPh 21 / TER", "PP 58/2023", "Coretax XML", "Git", "Vercel"],
-  },
-] as const;
-
 export default function PortfolioPage() {
   return (
     <main className="relative overflow-hidden">
-      <header className="sticky top-0 z-50 border-b border-slate-800/80 bg-[#090d16]/85 backdrop-blur-xl">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+      <header className="navbar-floating sticky top-3 z-50 bg-transparent px-4">
+        <nav
+          aria-label="Primary navigation"
+          className="mx-auto flex w-fit max-w-full items-center gap-1 rounded-2xl border-2 border-black bg-[#fffdf5] p-1.5 text-xs font-bold uppercase tracking-[0.12em] text-black shadow-[4px_4px_0_#111] sm:gap-2 sm:p-2 sm:text-sm"
+        >
           <a
-            href="#top"
-            className="inline-flex items-center gap-3 text-sm font-semibold text-white"
-            aria-label="Back to top"
+            href="#work"
+            className="rounded-xl px-3 py-2.5 transition hover:bg-yellow-300 sm:px-6"
           >
-            <span className="tracking-tight">Thendy Hose</span>
-            <span className="hidden items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-300 sm:inline-flex">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
-              Open for IT Advisory Internship
-            </span>
+            Projects
           </a>
-
-          <div className="flex items-center gap-2 sm:gap-3">
-            <a
-              href="https://github.com/thendy18"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden items-center gap-2 rounded-full border border-slate-800 bg-slate-950/70 px-3 py-2 text-sm text-slate-300 transition hover:border-emerald-500/50 hover:text-white sm:inline-flex"
-            >
-              <ExternalLink className="h-4 w-4" />
-              GitHub
-            </a>
-            <a
-              href="https://www.linkedin.com/in/thendy-hose-8356262ba"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden items-center gap-2 rounded-full border border-slate-800 bg-slate-950/70 px-3 py-2 text-sm text-slate-300 transition hover:border-emerald-500/50 hover:text-white md:inline-flex"
-            >
-              <Link2 className="h-4 w-4" />
-              LinkedIn
-            </a>
-            <RippleButton
-              type="button"
-              onClick={() => {
-                window.location.href = "mailto:thendyhose@gmail.com?subject=CV%20Request";
-              }}
-              rippleColor="#ffffff"
-              className="shrink-0 whitespace-nowrap rounded-full border-2 border-black bg-yellow-300 px-3 py-2 text-sm font-semibold text-black shadow-[3px_3px_0_#111] transition hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none sm:px-4"
-            >
-              <ArrowDownToLine className="h-4 w-4" /> <span>CV</span>
-             
-            </RippleButton>
-          </div>
-        </div>
+          <a
+            href="#expertise"
+            className="rounded-xl px-3 py-2.5 transition hover:bg-yellow-300 sm:px-6"
+          >
+            Expertise
+          </a>
+          <a
+            href="#contact"
+            className="rounded-xl px-3 py-2.5 transition hover:bg-yellow-300 sm:px-6"
+          >
+            Contact
+          </a>
+        </nav>
       </header>
 
       <div
         id="top"
         className="mx-auto flex w-full max-w-7xl flex-col gap-24 px-4 py-14 sm:px-6 lg:px-8 lg:py-20"
       >
-        <section className="grid gap-10 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
+        <section className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+          <div className="relative overflow-hidden rounded-3xl border-2 border-black bg-[#a8d8ff] p-4 text-black shadow-[6px_6px_0_#111] sm:p-6">
+            <div className="flex aspect-[4/3] items-center justify-center rounded-2xl border-2 border-black bg-[#f7f1e3]">
+              <div className="text-center">
+                <div className="mx-auto mb-3 flex h-24 w-24 items-center justify-center rounded-full border-2 border-black bg-yellow-300 text-4xl font-black shadow-[4px_4px_0_#111]">
+                  TH
+                </div>
+                <p className="text-xs font-black uppercase tracking-[0.28em]">
+                  Photo Placeholder
+                </p>
+              </div>
+            </div>
+            <div className="mt-5 border-t-2 border-black pt-4">
+              <p className="text-2xl font-black tracking-tight">Thendy Hose</p>
+              <p className="mt-2 max-w-sm text-sm font-medium leading-6">
+                Practical systems builder turning everyday business friction
+                into reliable digital tools.
+              </p>
+            </div>
+          </div>
+
           <div className="space-y-7">
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-950/70 px-4 py-2 text-xs font-medium text-slate-300">
-              <Sparkles className="h-4 w-4 text-emerald-400" />
+            <div className="inline-flex items-center gap-2 rounded-full border-2 border-black bg-yellow-300 px-4 py-2 text-xs font-bold text-black shadow-[3px_3px_0_#111]">
+              <Sparkles className="h-4 w-4" />
               Practical Systems Builder & Software Engineer
             </div>
 
@@ -189,36 +172,6 @@ export default function PortfolioPage() {
             </div>
           </div>
 
-          <aside className="rounded-3xl border border-slate-800 bg-slate-950/70 p-6 shadow-2xl shadow-emerald-950/10">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-medium text-slate-200">
-                  Screening Proof
-                </p>
-                <ShieldCheck className="h-5 w-5 text-emerald-400" />
-              </div>
-              <div className="grid gap-3 text-sm text-slate-300">
-                <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
-                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
-                    Focus
-                  </p>
-                  <p className="mt-2 leading-7">
-                    Enterprise IT, compliance logic, and operational systems
-                    that can survive real-world edge cases.
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
-                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
-                    KPI
-                  </p>
-                  <p className="mt-2 leading-7">
-                    Fast scanning, live interaction, and strong technical
-                    credibility within the first 60 seconds.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </aside>
         </section>
 
         <section id="work" className="space-y-6">
@@ -386,37 +339,7 @@ export default function PortfolioPage() {
           </div>
         </section>
 
-        <section id="expertise" className="space-y-6">
-          <div className="space-y-2">
-            <p className="text-xs uppercase tracking-[0.32em] text-emerald-400">
-              Expertise
-            </p>
-            <h2 className="text-2xl font-semibold text-white sm:text-3xl">
-              Technical competencies matrix
-            </h2>
-          </div>
-
-          <div className="grid gap-4 lg:grid-cols-3">
-            {competencies.map((group) => (
-              <div
-                key={group.title}
-                className="rounded-3xl border border-slate-800 bg-slate-950/70 p-6"
-              >
-                <h3 className="text-base font-semibold text-white">{group.title}</h3>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {group.items.map((item) => (
-                    <span
-                      key={item}
-                      className="rounded-full border border-slate-700 bg-slate-900/80 px-3 py-1 text-sm text-slate-300"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+        <ExpertiseOrbit />
 
         <footer
           id="contact"

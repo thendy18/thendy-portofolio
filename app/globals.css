@@ -63,6 +63,42 @@
   }
 }
 
+@keyframes expertise-orbit-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-7px) rotate(-1deg);
+  }
+}
+
+@keyframes expertise-orbit-dash {
+  to {
+    stroke-dashoffset: -36;
+  }
+}
+
+.expertise-orbit-node {
+  animation: expertise-orbit-float 3.8s ease-in-out infinite;
+}
+
+.expertise-orbit-ring {
+  stroke: #111111;
+  stroke-width: 0.45;
+  stroke-dasharray: 2 2;
+  opacity: 0.55;
+  animation: expertise-orbit-dash 9s linear infinite;
+}
+
+.expertise-orbit-ring-inner {
+  stroke-width: 0.55;
+  opacity: 0.8;
+  animation-duration: 6s;
+  animation-direction: reverse;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -109,6 +145,12 @@ header {
   background: var(--card) !important;
   border-bottom: 2px solid var(--border) !important;
   box-shadow: 0 4px 0 var(--border);
+}
+
+header.navbar-floating {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
 
 article,
