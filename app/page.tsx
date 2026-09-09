@@ -1,7 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import {
   ArrowDownToLine,
-  ArrowRight,
   ExternalLink,
   Link2,
   Mail,
@@ -14,6 +15,8 @@ import {
   BookingSandbox,
   TaxSandbox,
 } from "./components/portfolio-sandboxes";
+import { RippleButton } from "./components/ripple-button";
+import { ProjectCarousel } from "./components/project-carousel";
 
 const projects = [
   {
@@ -30,19 +33,6 @@ const projects = [
       "TER A lookup demo with deterministic bracket mapping and instant tax deduction output.",
       "Designed to translate business rules into a server-friendly transformation pipeline.",
     ],
-    architecture: [
-      "[Client] Gaji Bruto JSON",
-      "   │",
-      "   ▼",
-      "[Next.js API Route]",
-      "   │── Validate + sanitize input",
-      "   │── Load TER lookup table",
-      "   │── Calculate tax liability",
-      "   ▼",
-      "[XML transformation layer]",
-      "   ▼",
-      "[Download XML blob]",
-    ],
   },
   {
     id: "expertise",
@@ -58,19 +48,6 @@ const projects = [
       "Slot state updates move through Open, Selected, and Booked by Others.",
       "The race-condition demo uses delayed state mutation to mimic real-world contention.",
     ],
-    architecture: [
-      "[Client UI] pick slot 10:00",
-      "   │",
-      "   ▼",
-      "[Optimistic UI update]",
-      "   │",
-      "   ▼",
-      "[Supabase / Edge Function]",
-      "   │── Transaction lock",
-      "   │── Verify availability",
-      "   ▼",
-      "[Client resolution + refresh]",
-    ],
   },
   {
     id: "contact",
@@ -85,18 +62,6 @@ const projects = [
     bullets: [
       "Visual budget progress shifts from emerald to warning yellow to red.",
       "Optimized for recruiter-friendly scanning on mobile and desktop.",
-    ],
-    architecture: [
-      "[Slider input]",
-      "   │",
-      "   ▼",
-      "[Spend state]",
-      "   │",
-      "   ├── ratio < 50%  => emerald",
-      "   ├── ratio < 80%  => yellow",
-      "   └── ratio >= 80% => red",
-      "   ▼",
-      "[Dynamic alert banner]",
     ],
   },
 ] as const;
@@ -119,9 +84,6 @@ const competencies = [
 export default function PortfolioPage() {
   return (
     <main className="relative overflow-hidden">
-      <div className="pointer-events-none absolute inset-x-0 top-[-12rem] h-[28rem] bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.18),_transparent_60%)]" />
-      <div className="pointer-events-none absolute left-1/2 top-40 h-72 w-72 -translate-x-1/2 rounded-full bg-emerald-500/10 blur-3xl" />
-
       <header className="sticky top-0 z-50 border-b border-slate-800/80 bg-[#090d16]/85 backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <a
@@ -155,14 +117,17 @@ export default function PortfolioPage() {
               <Link2 className="h-4 w-4" />
               LinkedIn
             </a>
-            <a
-              href="mailto:thendyhose@gmail.com?subject=CV%20Request"
-              className="inline-flex items-center gap-2 rounded-full bg-emerald-500 px-3 py-2 text-sm font-semibold text-[#08111c] transition hover:brightness-110 sm:px-4"
+            <RippleButton
+              type="button"
+              onClick={() => {
+                window.location.href = "mailto:thendyhose@gmail.com?subject=CV%20Request";
+              }}
+              rippleColor="#ffffff"
+              className="shrink-0 whitespace-nowrap rounded-full border-2 border-black bg-yellow-300 px-3 py-2 text-sm font-semibold text-black shadow-[3px_3px_0_#111] transition hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none sm:px-4"
             >
-              <ArrowDownToLine className="h-4 w-4" />
-              <span className="hidden sm:inline">Request CV</span>
-              <span className="sm:hidden">CV</span>
-            </a>
+              <ArrowDownToLine className="h-4 w-4" /> <span>CV</span>
+             
+            </RippleButton>
           </div>
         </div>
       </header>
@@ -209,13 +174,18 @@ export default function PortfolioPage() {
                 <Link2 className="h-4 w-4" />
                 LinkedIn
               </a>
-              <a
-                href="#contact"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
-              >
-                Contact
-                <ArrowRight className="h-4 w-4" />
-              </a>
+              <div className="flex shrink-0 items-center gap-3">
+                
+                <RippleButton
+                  type="button"
+                  onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+                  rippleColor="#a8d8ff"
+                  className="whitespace-nowrap rounded-full border-2 border-black bg-yellow-300 px-4 py-2 text-sm font-semibold text-black shadow-[3px_3px_0_#111] transition hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+                >
+                  Contact
+                  
+                </RippleButton>
+              </div>
             </div>
           </div>
 
@@ -307,17 +277,12 @@ export default function PortfolioPage() {
                   {projects[0].linkLabel}
                   <ExternalLink className="h-4 w-4" />
                 </a>
-                <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
-                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
-                    Architecture Note
-                  </p>
-                  <pre className="mt-3 overflow-x-auto text-xs leading-6 text-slate-300">
-                    {projects[0].architecture.join("\n")}
-                  </pre>
-                </div>
               </div>
               <div className="min-w-0">
                 <TaxSandbox />
+              </div>
+              <div className="min-w-0 lg:col-span-2">
+                <ProjectCarousel project="Coretax Engine" />
               </div>
             </article>
 
@@ -361,17 +326,12 @@ export default function PortfolioPage() {
                   {projects[1].linkLabel}
                   <ExternalLink className="h-4 w-4" />
                 </a>
-                <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
-                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
-                    Architecture Note
-                  </p>
-                  <pre className="mt-3 overflow-x-auto text-xs leading-6 text-slate-300">
-                    {projects[1].architecture.join("\n")}
-                  </pre>
-                </div>
               </div>
               <div className="min-w-0">
                 <BookingSandbox />
+              </div>
+              <div className="min-w-0 lg:col-span-2">
+                <ProjectCarousel project="Hair Garage" />
               </div>
             </article>
 
@@ -415,17 +375,12 @@ export default function PortfolioPage() {
                   {projects[2].linkLabel}
                   <ExternalLink className="h-4 w-4" />
                 </a>
-                <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
-                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
-                    Architecture Note
-                  </p>
-                  <pre className="mt-3 overflow-x-auto text-xs leading-6 text-slate-300">
-                    {projects[2].architecture.join("\n")}
-                  </pre>
-                </div>
               </div>
               <div className="min-w-0">
                 <BudgetSandbox />
+              </div>
+              <div className="min-w-0 lg:col-span-2">
+                <ProjectCarousel project="MoneyNote" />
               </div>
             </article>
           </div>
@@ -485,13 +440,17 @@ export default function PortfolioPage() {
           </div>
 
           <div className="flex flex-col gap-3">
-            <a
-              href="mailto:thendyhose@gmail.com"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-[#08111c] transition hover:brightness-110"
+            <RippleButton
+              type="button"
+              onClick={() => {
+                window.location.href = "mailto:thendyhose@gmail.com";
+              }}
+              rippleColor="#ffffff"
+              className="justify-center rounded-full border-2 border-black bg-yellow-300 px-4 py-2.5 text-sm font-semibold text-black shadow-[3px_3px_0_#111] transition hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
             >
               <Mail className="h-4 w-4" />
               thendyhose@gmail.com
-            </a>
+            </RippleButton>
             <div className="flex flex-wrap gap-3">
               <Link
                 href="https://github.com/thendy18"

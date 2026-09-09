@@ -35,7 +35,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className="h-full scroll-smooth antialiased">
-      <body className="min-h-full bg-[#090d16] text-slate-100">{children}</body>
+      <body className="min-h-full bg-background text-foreground">
+        {children}
+      </body>
     </html>
   );
 }
