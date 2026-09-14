@@ -16,8 +16,8 @@ export function ScrollReveal({ children, className = "" }: ScrollRevealProps) {
     if (!element) return;
 
     if (!("IntersectionObserver" in window)) {
-      setIsVisible(true);
-      return;
+      const timer = setTimeout(() => setIsVisible(true), 0);
+      return () => clearTimeout(timer);
     }
 
     const observer = new IntersectionObserver(

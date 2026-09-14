@@ -78,7 +78,7 @@ export default function PortfolioPage() {
           <a
             href="#top"
             aria-label="Back to top"
-            className="flex items-center gap-2 border-r-2 border-black bg-lime-300 px-3 py-4 whitespace-nowrap transition hover:bg-lime-200 sm:px-6"
+            className="nav-brand-reveal flex items-center gap-2 border-r-2 border-black bg-lime-300 px-3 py-4 whitespace-nowrap transition hover:bg-lime-200 sm:px-6"
           >
             <span className="font-mono text-base font-black sm:text-lg">&lt;/&gt;</span>
             <span className="hidden sm:inline">THENDY HOSE</span>
@@ -88,13 +88,13 @@ export default function PortfolioPage() {
           <div className="flex min-w-0 items-center justify-center gap-1 px-1 sm:gap-5 sm:px-4">
           <a
             href="#work"
-            className="px-2 py-2.5 transition hover:bg-yellow-300 sm:px-3"
+            className="nav-link-reveal nav-link-top px-2 py-2.5 transition hover:bg-yellow-300 sm:px-3"
           >
             Projects
           </a>
           <a
             href="#expertise"
-            className="px-2 py-2.5 transition hover:bg-yellow-300 sm:px-3"
+            className="nav-link-reveal nav-link-bottom px-2 py-2.5 transition hover:bg-yellow-300 sm:px-3"
           >
             Expertise
           </a>
@@ -102,7 +102,7 @@ export default function PortfolioPage() {
 
           <a
             href="#contact"
-            className="flex items-center gap-1 border-l-2 border-black bg-violet-500 px-3 py-4 text-white transition hover:bg-violet-400 sm:gap-3 sm:px-6"
+            className="nav-contact-reveal flex items-center gap-1 border-l-2 border-black bg-violet-500 px-3 py-4 text-white transition hover:bg-violet-400 sm:gap-3 sm:px-6"
           >
             <span className="hidden sm:inline">Contact Me</span>
             <span className="sm:hidden">Contact</span>
