@@ -116,7 +116,7 @@ export default function PortfolioPage() {
         className="mx-auto flex w-full max-w-7xl flex-col gap-24 px-4 py-14 sm:px-6 lg:px-8 lg:py-20"
       >
         <ScrollReveal>
-        <section className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+        <section className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
           <div className="relative flex min-h-130 items-center justify-center overflow-hidden border-2 border-black bg-[#a8d8ff] p-6 text-black shadow-[6px_6px_0_#111] sm:min-h-150">
             <div className="hero-placeholder-grid absolute inset-0 opacity-25" />
             <div className="absolute h-[75%] w-[72%] rotate-6 border-2 border-black bg-violet-400 shadow-[7px_7px_0_#111]" />
@@ -141,17 +141,17 @@ export default function PortfolioPage() {
             </div>
           </div>
 
-          <div className="space-y-7">
-            <div className="inline-flex items-center gap-2 rounded-full border-2 border-black bg-yellow-300 px-4 py-2 text-xs font-bold text-black shadow-[3px_3px_0_#111]">
+          <div className="space-y-9 pt-4 lg:pt-14">
+            <div className="inline-flex items-center gap-2 rounded-full border-2 border-black bg-yellow-300 px-5 py-2.5 text-sm font-bold text-black shadow-[3px_3px_0_#111]">
               <Sparkles className="h-4 w-4" />
               Practical Systems Builder & Software Engineer
             </div>
 
             <div className="space-y-5">
-              <p className="max-w-3xl text-balance text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
+              <p className="max-w-4xl text-balance text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
                Code that solves real problems.
               </p>
-              <p className="max-w-3xl text-pretty text-base leading-8 text-slate-300 sm:text-lg">
+              <p className="max-w-4xl text-pretty text-lg leading-9 text-slate-300 sm:text-xl">
                 From running a live booking system for Thendy Hair Garage to
                 replacing clunky tax spreadsheets with automated web engines. I
                 turn messy manual workflows into clean, reliable apps.
@@ -163,7 +163,7 @@ export default function PortfolioPage() {
                 href="https://github.com/thendy18"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-950/70 px-4 py-2 text-sm text-slate-200 transition hover:border-emerald-500/50 hover:text-white"
+                  className="inline-flex items-center gap-2 rounded-full border-2 border-black bg-white px-5 py-2.5 text-base text-black shadow-[3px_3px_0_#111] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
               >
                 <ExternalLink className="h-4 w-4" />
                 GitHub
@@ -172,7 +172,7 @@ export default function PortfolioPage() {
                 href="https://www.linkedin.com/in/thendy-hose-8356262ba"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-950/70 px-4 py-2 text-sm text-slate-200 transition hover:border-emerald-500/50 hover:text-white"
+                  className="inline-flex items-center gap-2 rounded-full border-2 border-black bg-white px-5 py-2.5 text-base text-black shadow-[3px_3px_0_#111] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
               >
                 <Link2 className="h-4 w-4" />
                 LinkedIn
@@ -183,7 +183,7 @@ export default function PortfolioPage() {
                   type="button"
                   onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
                   rippleColor="#a8d8ff"
-                  className="whitespace-nowrap rounded-full border-2 border-black bg-yellow-300 px-4 py-2 text-sm font-semibold text-black shadow-[3px_3px_0_#111] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
+                  className="whitespace-nowrap rounded-full border-2 border-black bg-yellow-300 px-5 py-2.5 text-base font-semibold text-black shadow-[3px_3px_0_#111] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
                 >
                   Contact
                   
