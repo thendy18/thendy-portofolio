@@ -16,6 +16,7 @@ import {
 } from "./components/portfolio-sandboxes";
 import { RippleButton } from "./components/ripple-button";
 import { ProjectCarousel } from "./components/project-carousel";
+import { ScrollReveal } from "./components/scroll-reveal";
 import { ExpertiseOrbit } from "./components/ui/expertise-orbit";
 
 const projects = [
@@ -114,6 +115,7 @@ export default function PortfolioPage() {
         id="top"
         className="mx-auto flex w-full max-w-7xl flex-col gap-24 px-4 py-14 sm:px-6 lg:px-8 lg:py-20"
       >
+        <ScrollReveal>
         <section className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
           <div className="relative flex min-h-130 items-center justify-center overflow-hidden border-2 border-black bg-[#a8d8ff] p-6 text-black shadow-[6px_6px_0_#111] sm:min-h-150">
             <div className="hero-placeholder-grid absolute inset-0 opacity-25" />
@@ -191,7 +193,9 @@ export default function PortfolioPage() {
           </div>
 
         </section>
+        </ScrollReveal>
 
+        <ScrollReveal>
         <section id="work" className="space-y-6">
           <div className="flex flex-col gap-2">
             <p className="text-xs uppercase tracking-[0.32em] text-emerald-400">
@@ -356,9 +360,13 @@ export default function PortfolioPage() {
             </article>
           </div>
         </section>
+        </ScrollReveal>
 
-        <ExpertiseOrbit />
+        <ScrollReveal>
+          <ExpertiseOrbit />
+        </ScrollReveal>
 
+        <ScrollReveal>
         <footer
           id="contact"
           className="grid gap-6 rounded-3xl border border-slate-800 bg-slate-950/70 p-6 sm:p-8 lg:grid-cols-[1fr_auto]"
@@ -414,6 +422,7 @@ export default function PortfolioPage() {
             </div>
           </div>
         </footer>
+        </ScrollReveal>
       </div>
     </main>
   );
