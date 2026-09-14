@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import {
-  ArrowDownToLine,
   ExternalLink,
   Link2,
   Mail,
@@ -25,7 +25,7 @@ const projects = [
     badgeSecondary: "Enterprise Logic",
     stack: ["Next.js", "TypeScript", "PP 58/2023", "Supabase"],
     linkLabel: "View repository",
-    linkHref: "https://github.com/thendy18",
+    linkHref: "https://github.com/thendy18/prototype-pph21.git",
     title: "Payroll & Coretax-Aligned PPh 21 Engine",
     description:
       "A practical tax workflow engine for PP 58/2023 TER handling, monthly reconciliation, and XML-ready export logic. Built to reduce spreadsheet drift and make compliance review visible in the UI.",
@@ -35,33 +35,33 @@ const projects = [
     ],
   },
   {
-    id: "expertise",
-    badge: "Operational Systems",
-    badgeSecondary: "Concurrency Demo",
-    stack: ["Next.js", "React State", "Supabase", "Edge Functions"],
-    linkLabel: "View operational proof",
-    linkHref: "https://github.com/thendy18",
-    title: "Thendy Hair Garage - Operational Scheduling Engine",
-    description:
-      "A self-booking flow that models double-booking risk on the client side and demonstrates how optimistic UI should react when a slot is taken by someone else.",
-    bullets: [
-      "Slot state updates move through Open, Selected, and Booked by Others.",
-      "The race-condition demo uses delayed state mutation to mimic real-world contention.",
-    ],
-  },
-  {
     id: "contact",
     badge: "Interactive Analytics",
     badgeSecondary: "Adaptive Budget",
     stack: ["Flutter", "Dart", "Offline-first", "Local Storage"],
     linkLabel: "View repository",
-    linkHref: "https://github.com/thendy18",
+    linkHref: "https://github.com/thendy18/moneynote.git",
     title: "MoneyNote - Financial Tracker Application",
     description:
       "A responsive ledger UI with adaptive budget feedback, clear threshold states, and a touch-friendly slider for monitoring spend pressure in real time.",
     bullets: [
       "Visual budget progress shifts from emerald to warning yellow to red.",
       "Optimized for recruiter-friendly scanning on mobile and desktop.",
+    ],
+  },
+  {
+    id: "expertise",
+    badge: "Operational Systems",
+    badgeSecondary: "Concurrency Demo",
+    stack: ["Next.js", "React State", "Supabase", "Edge Functions"],
+    linkLabel: "View operational proof",
+    linkHref: "https://github.com/thendy18/hair_garage.git",
+    title: "Thendy Hair Garage - Operational Scheduling Engine",
+    description:
+      "A self-booking flow that models double-booking risk on the client side and demonstrates how optimistic UI should react when a slot is taken by someone else.",
+    bullets: [
+      "Slot state updates move through Open, Selected, and Booked by Others.",
+      "The race-condition demo uses delayed state mutation to mimic real-world contention.",
     ],
   },
 ] as const;
@@ -72,25 +72,40 @@ export default function PortfolioPage() {
       <header className="navbar-floating sticky top-3 z-50 bg-transparent px-4">
         <nav
           aria-label="Primary navigation"
-          className="mx-auto flex w-fit max-w-full items-center gap-1 rounded-2xl border-2 border-black bg-[#fffdf5] p-1.5 text-xs font-bold uppercase tracking-[0.12em] text-black shadow-[4px_4px_0_#111] sm:gap-2 sm:p-2 sm:text-sm"
+          className="mx-auto grid w-full max-w-7xl grid-cols-[auto_1fr_auto] items-stretch border-2 border-black bg-[#fffdf5] text-xs font-bold uppercase tracking-widest text-black shadow-[4px_4px_0_#111] sm:text-sm"
         >
           <a
+            href="#top"
+            aria-label="Back to top"
+            className="flex items-center gap-2 border-r-2 border-black bg-lime-300 px-3 py-4 whitespace-nowrap transition hover:bg-lime-200 sm:px-6"
+          >
+            <span className="font-mono text-base font-black sm:text-lg">&lt;/&gt;</span>
+            <span className="hidden sm:inline">THENDY HOSE</span>
+            <span className="sm:hidden">TH.</span>
+          </a>
+
+          <div className="flex min-w-0 items-center justify-center gap-1 px-1 sm:gap-5 sm:px-4">
+          <a
             href="#work"
-            className="rounded-xl px-3 py-2.5 transition hover:bg-yellow-300 sm:px-6"
+            className="px-2 py-2.5 transition hover:bg-yellow-300 sm:px-3"
           >
             Projects
           </a>
           <a
             href="#expertise"
-            className="rounded-xl px-3 py-2.5 transition hover:bg-yellow-300 sm:px-6"
+            className="px-2 py-2.5 transition hover:bg-yellow-300 sm:px-3"
           >
             Expertise
           </a>
+          </div>
+
           <a
             href="#contact"
-            className="rounded-xl px-3 py-2.5 transition hover:bg-yellow-300 sm:px-6"
+            className="flex items-center gap-1 border-l-2 border-black bg-violet-500 px-3 py-4 text-white transition hover:bg-violet-400 sm:gap-3 sm:px-6"
           >
-            Contact
+            <span className="hidden sm:inline">Contact Me</span>
+            <span className="sm:hidden">Contact</span>
+            <span aria-hidden="true" className="text-base sm:text-lg">-&gt;</span>
           </a>
         </nav>
       </header>
@@ -100,23 +115,27 @@ export default function PortfolioPage() {
         className="mx-auto flex w-full max-w-7xl flex-col gap-24 px-4 py-14 sm:px-6 lg:px-8 lg:py-20"
       >
         <section className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-          <div className="relative overflow-hidden rounded-3xl border-2 border-black bg-[#a8d8ff] p-4 text-black shadow-[6px_6px_0_#111] sm:p-6">
-            <div className="flex aspect-[4/3] items-center justify-center rounded-2xl border-2 border-black bg-[#f7f1e3]">
-              <div className="text-center">
-                <div className="mx-auto mb-3 flex h-24 w-24 items-center justify-center rounded-full border-2 border-black bg-yellow-300 text-4xl font-black shadow-[4px_4px_0_#111]">
-                  TH
-                </div>
-                <p className="text-xs font-black uppercase tracking-[0.28em]">
-                  Photo Placeholder
-                </p>
+          <div className="relative flex min-h-130 items-center justify-center overflow-hidden border-2 border-black bg-[#a8d8ff] p-6 text-black shadow-[6px_6px_0_#111] sm:min-h-150">
+            <div className="hero-placeholder-grid absolute inset-0 opacity-25" />
+            <div className="absolute h-[75%] w-[72%] rotate-6 border-2 border-black bg-violet-400 shadow-[7px_7px_0_#111]" />
+            <div className="absolute h-[75%] w-[72%] -rotate-3 border-2 border-black bg-lime-300 shadow-[7px_7px_0_#111]" />
+
+            <div className="relative z-10 w-[76%] -rotate-3 transform-gpu border-2 border-black bg-[#fffdf5] p-4 shadow-[8px_8px_0_#111] sm:p-5">
+              <div className="flex aspect-4/5 items-center justify-center border-2 border-black bg-yellow-300">
+                <Image
+                  src="/projects/profil/profile-image.jpg"
+                  alt="Thendy Hose"
+                  width={3904}
+                  height={5184}
+                  quality={90}
+                  sizes="(min-width: 1024px) 30vw, 90vw"
+                  className="polaroid-photo h-full w-full object-cover"
+                />
               </div>
-            </div>
-            <div className="mt-5 border-t-2 border-black pt-4">
-              <p className="text-2xl font-black tracking-tight">Thendy Hose</p>
-              <p className="mt-2 max-w-sm text-sm font-medium leading-6">
-                Practical systems builder turning everyday business friction
-                into reliable digital tools.
-              </p>
+              <div className="pt-4">
+                <p className="text-2xl font-black tracking-tight sm:text-3xl">Thendy Hose</p>
+                <p className="mt-1 text-xs font-bold uppercase tracking-[0.16em]">Systems Builder</p>
+              </div>
             </div>
           </div>
 
@@ -128,8 +147,7 @@ export default function PortfolioPage() {
 
             <div className="space-y-5">
               <p className="max-w-3xl text-balance text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
-                I don&apos;t just build software. I build tools for problems I
-                actually see.
+               Code that solves real problems.
               </p>
               <p className="max-w-3xl text-pretty text-base leading-8 text-slate-300 sm:text-lg">
                 From running a live booking system for Thendy Hair Garage to
@@ -163,7 +181,7 @@ export default function PortfolioPage() {
                   type="button"
                   onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
                   rippleColor="#a8d8ff"
-                  className="whitespace-nowrap rounded-full border-2 border-black bg-yellow-300 px-4 py-2 text-sm font-semibold text-black shadow-[3px_3px_0_#111] transition hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+                  className="whitespace-nowrap rounded-full border-2 border-black bg-yellow-300 px-4 py-2 text-sm font-semibold text-black shadow-[3px_3px_0_#111] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
                 >
                   Contact
                   
@@ -281,10 +299,10 @@ export default function PortfolioPage() {
                 </a>
               </div>
               <div className="min-w-0">
-                <BookingSandbox />
+                <BudgetSandbox />
               </div>
               <div className="min-w-0 lg:col-span-2">
-                <ProjectCarousel project="Hair Garage" />
+                <ProjectCarousel project="MoneyNote" />
               </div>
             </article>
 
@@ -330,10 +348,10 @@ export default function PortfolioPage() {
                 </a>
               </div>
               <div className="min-w-0">
-                <BudgetSandbox />
+                <BookingSandbox />
               </div>
               <div className="min-w-0 lg:col-span-2">
-                <ProjectCarousel project="MoneyNote" />
+                <ProjectCarousel project="Hair Garage" />
               </div>
             </article>
           </div>
@@ -369,7 +387,7 @@ export default function PortfolioPage() {
                 window.location.href = "mailto:thendyhose@gmail.com";
               }}
               rippleColor="#ffffff"
-              className="justify-center rounded-full border-2 border-black bg-yellow-300 px-4 py-2.5 text-sm font-semibold text-black shadow-[3px_3px_0_#111] transition hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+              className="justify-center rounded-full border-2 border-black bg-yellow-300 px-4 py-2.5 text-sm font-semibold text-black shadow-[3px_3px_0_#111] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
             >
               <Mail className="h-4 w-4" />
               thendyhose@gmail.com

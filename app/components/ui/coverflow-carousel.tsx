@@ -14,12 +14,14 @@ interface CoverflowCarouselProps {
   slides: CoverflowSlide[];
   label?: string;
   cardWidth?: string;
+  cardRatio?: "landscape" | "phone";
 }
 
 export function CoverflowCarousel({
   slides,
   label = "Project image carousel",
   cardWidth = "clamp(150px, 24vw, 230px)",
+  cardRatio = "landscape",
 }: CoverflowCarouselProps) {
   const [selected, setSelected] = React.useState(0);
   const [dragStart, setDragStart] = React.useState<number | null>(null);
@@ -47,8 +49,13 @@ export function CoverflowCarousel({
       aria-label={label}
     >
       <div
-        className="relative min-h-[310px] touch-pan-y select-none overflow-hidden rounded-[5px] border-2 border-black bg-[#a8d8ff] py-5 shadow-[4px_4px_0_#111]"
-        style={{ height: "clamp(310px, 36vw, 430px)" }}
+        className="relative touch-pan-y select-none overflow-hidden rounded-[5px] border-2 border-black bg-[#a8d8ff] py-5 shadow-[4px_4px_0_#111]"
+        style={{
+          height:
+            cardRatio === "phone"
+              ? "clamp(400px, 48vw, 620px)"
+              : "clamp(310px, 36vw, 430px)",
+        }}
         tabIndex={0}
         onKeyDown={(event) => {
           if (event.key === "ArrowLeft") move(-1);
@@ -82,9 +89,10 @@ export function CoverflowCarousel({
             return (
               <div
                 key={`${slide.title}-${index}`}
-                className="absolute left-1/2 top-1/2 aspect-square overflow-hidden rounded-[5px] border-2 border-black bg-white transition-[transform,opacity] duration-300"
+                className="absolute left-1/2 top-1/2 overflow-hidden rounded-[5px] border-2 border-black bg-white transition-[transform,opacity] duration-300"
                 style={{
                   width: "var(--carousel-card)",
+                  aspectRatio: cardRatio === "phone" ? "9 / 19.5" : "16 / 9",
                   transform: `translate(-50%, -50%) translateX(${translateX}%) rotateY(${rotateY}deg) scale(${scale})`,
                   opacity: absoluteDistance > 2 ? 0 : 1 - absoluteDistance * 0.18,
                   zIndex: 20 - absoluteDistance,
@@ -98,7 +106,7 @@ export function CoverflowCarousel({
                   src={slide.src}
                   alt={slide.alt}
                   draggable={false}
-                  className="h-full w-full select-none object-cover"
+                  className="h-full w-full select-none object-contain bg-white"
                 />
                 <div className="absolute inset-x-0 bottom-0 border-t-2 border-black bg-white/95 px-3 py-2">
                   <p className="truncate text-xs font-bold uppercase tracking-[0.12em] text-black">

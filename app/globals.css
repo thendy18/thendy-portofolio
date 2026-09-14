@@ -153,6 +153,16 @@ header.navbar-floating {
   box-shadow: none !important;
 }
 
+.hero-placeholder-grid {
+  background-image: linear-gradient(#fff 1px, transparent 1px),
+    linear-gradient(90deg, #fff 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.polaroid-photo {
+  backface-visibility: hidden;
+}
+
 article,
 footer,
 main > div > aside {
