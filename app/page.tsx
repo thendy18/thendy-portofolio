@@ -6,6 +6,7 @@ import {
   ExternalLink,
   Link2,
   Mail,
+  Phone,
   Sparkles,
 } from "lucide-react";
 
@@ -70,31 +71,31 @@ const projects = [
 export default function PortfolioPage() {
   return (
     <main className="relative overflow-hidden">
-      <header className="navbar-floating sticky top-3 z-50 bg-transparent px-4">
+      <header className="navbar-floating sticky top-3 z-50 bg-transparent px-2 sm:px-4">
         <nav
           aria-label="Primary navigation"
-          className="mx-auto grid w-full max-w-7xl grid-cols-[auto_1fr_auto] items-stretch border-2 border-black bg-[#fffdf5] text-xs font-bold uppercase tracking-widest text-black shadow-[4px_4px_0_#111] sm:text-sm"
+          className="mx-auto grid min-h-11 w-full max-w-7xl grid-cols-[auto_1fr_auto] items-stretch gap-1 border-2 border-black bg-[#fffdf5] p-1 text-[10px] font-bold uppercase tracking-[0.04em] text-black shadow-[4px_4px_0_#111] sm:gap-2 sm:p-2 sm:text-sm sm:tracking-widest"
         >
           <a
             href="#top"
             aria-label="Back to top"
-            className="nav-brand-reveal flex items-center gap-2 border-r-2 border-black bg-lime-300 px-3 py-4 whitespace-nowrap transition hover:bg-lime-200 sm:px-6"
+            className="nav-brand-reveal flex min-h-11 items-center gap-1.5 border-2 border-black bg-lime-300 px-2 py-3 whitespace-nowrap shadow-[2px_2px_0_#111] transition hover:bg-lime-200 sm:gap-2 sm:px-6 sm:py-4"
           >
-            <span className="font-mono text-base font-black sm:text-lg">&lt;/&gt;</span>
+            <span className="font-mono text-sm font-black sm:text-lg">&lt;/&gt;</span>
             <span className="hidden sm:inline">THENDY HOSE</span>
             <span className="sm:hidden">TH.</span>
           </a>
 
-          <div className="flex min-w-0 items-center justify-center gap-1 px-1 sm:gap-5 sm:px-4">
+          <div className="flex min-w-0 items-center justify-center gap-1 px-0 sm:gap-2 sm:px-1">
           <a
             href="#work"
-            className="nav-link-reveal nav-link-top px-2 py-2.5 transition hover:bg-yellow-300 sm:px-3"
+            className="nav-link-reveal nav-link-top min-h-11 whitespace-nowrap border-2 border-black bg-[#a8d8ff] px-1.5 py-3 shadow-[2px_2px_0_#111] transition hover:bg-[#c7e7ff] sm:px-3 sm:py-2.5"
           >
             Projects
           </a>
           <a
             href="#expertise"
-            className="nav-link-reveal nav-link-bottom px-2 py-2.5 transition hover:bg-yellow-300 sm:px-3"
+            className="nav-link-reveal nav-link-bottom min-h-11 whitespace-nowrap border-2 border-black bg-yellow-300 px-1.5 py-3 shadow-[2px_2px_0_#111] transition hover:bg-yellow-200 sm:px-3 sm:py-2.5"
           >
             Expertise
           </a>
@@ -102,11 +103,11 @@ export default function PortfolioPage() {
 
           <a
             href="#contact"
-            className="nav-contact-reveal flex items-center gap-1 border-l-2 border-black bg-violet-500 px-3 py-4 text-white transition hover:bg-violet-400 sm:gap-3 sm:px-6"
+            className="nav-contact-reveal flex min-h-11 items-center gap-1 border-2 border-black bg-violet-500 px-2 py-3 text-white shadow-[2px_2px_0_#111] transition hover:bg-violet-400 sm:gap-3 sm:px-6 sm:py-4"
           >
             <span className="hidden sm:inline">Contact Me</span>
             <span className="sm:hidden">Contact</span>
-            <span aria-hidden="true" className="text-base sm:text-lg">-&gt;</span>
+            <span aria-hidden="true" className="text-base sm:text-lg">&gt;</span>
           </a>
         </nav>
       </header>
@@ -158,12 +159,12 @@ export default function PortfolioPage() {
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center justify-center gap-2 sm:gap-3">
               <a
                 href="https://github.com/thendy18"
                 target="_blank"
                 rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border-2 border-black bg-white px-5 py-2.5 text-base text-black shadow-[3px_3px_0_#111] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
+                className="inline-flex h-11 items-center gap-1.5 rounded-md border-2 border-black bg-white px-3 text-sm text-black shadow-[3px_3px_0_#111] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none sm:gap-2 sm:px-5 sm:text-base"
               >
                 <ExternalLink className="h-4 w-4" />
                 GitHub
@@ -172,19 +173,19 @@ export default function PortfolioPage() {
                 href="https://www.linkedin.com/in/thendy-hose-8356262ba"
                 target="_blank"
                 rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border-2 border-black bg-white px-5 py-2.5 text-base text-black shadow-[3px_3px_0_#111] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
+                className="inline-flex h-11 items-center gap-1.5 rounded-md border-2 border-black bg-white px-3 text-sm text-black shadow-[3px_3px_0_#111] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none sm:gap-2 sm:px-5 sm:text-base"
               >
                 <Link2 className="h-4 w-4" />
                 LinkedIn
               </a>
-              <div className="flex shrink-0 items-center gap-3">
-                
+              <div className="flex shrink-0 items-center">
                 <RippleButton
                   type="button"
                   onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
                   rippleColor="#a8d8ff"
-                  className="whitespace-nowrap rounded-full border-2 border-black bg-yellow-300 px-5 py-2.5 text-base font-semibold text-black shadow-[3px_3px_0_#111] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
+                  className="inline-flex h-11 items-center gap-1.5 whitespace-nowrap rounded-md border-2 border-black bg-yellow-300 px-3 text-sm font-semibold text-black shadow-[3px_3px_0_#111] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none sm:gap-2 sm:px-5 sm:text-base"
                 >
+                  <Phone className="h-4 w-4" />
                   Contact
                   
                 </RippleButton>
@@ -362,14 +363,12 @@ export default function PortfolioPage() {
         </section>
         </ScrollReveal>
 
-        <ScrollReveal>
-          <ExpertiseOrbit />
-        </ScrollReveal>
+        <ExpertiseOrbit />
 
         <ScrollReveal>
         <footer
           id="contact"
-          className="grid gap-6 rounded-3xl border border-slate-800 bg-slate-950/70 p-6 sm:p-8 lg:grid-cols-[1fr_auto]"
+          className="grid gap-6 rounded-3xl border border-slate-800 bg-slate-950/70 p-6 sm:p-8 lg:grid-cols-[1fr_minmax(280px,0.7fr)]"
         >
           <div className="space-y-2">
             <p className="text-xs uppercase tracking-[0.32em] text-emerald-400">
@@ -388,24 +387,24 @@ export default function PortfolioPage() {
             </p>
           </div>
 
-          <div className="flex flex-col gap-3">
+          <div className="flex w-full flex-col gap-3">
             <RippleButton
               type="button"
               onClick={() => {
                 window.location.href = "mailto:thendyhose@gmail.com";
               }}
               rippleColor="#ffffff"
-              className="justify-center rounded-full border-2 border-black bg-yellow-300 px-4 py-2.5 text-sm font-semibold text-black shadow-[3px_3px_0_#111] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
+              className="w-full justify-center rounded-full border-2 border-black bg-yellow-300 px-4 py-2.5 text-sm font-semibold text-black shadow-[3px_3px_0_#111] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
             >
               <Mail className="h-4 w-4" />
               thendyhose@gmail.com
             </RippleButton>
-            <div className="flex flex-wrap gap-3">
+            <div className="grid w-full grid-cols-2 gap-3">
               <Link
                 href="https://github.com/thendy18"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/80 px-4 py-2 text-sm text-slate-200 transition hover:border-emerald-500/50"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-slate-800 bg-slate-900/80 px-2 py-2 text-sm text-slate-200 transition hover:border-emerald-500/50 sm:px-4"
               >
                 <ExternalLink className="h-4 w-4" />
                 GitHub
@@ -414,7 +413,7 @@ export default function PortfolioPage() {
                 href="https://www.linkedin.com/in/thendy-hose-8356262ba"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/80 px-4 py-2 text-sm text-slate-200 transition hover:border-emerald-500/50"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-slate-800 bg-slate-900/80 px-2 py-2 text-sm text-slate-200 transition hover:border-emerald-500/50 sm:px-4"
               >
                 <Link2 className="h-4 w-4" />
                 LinkedIn

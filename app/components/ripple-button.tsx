@@ -58,7 +58,7 @@ export const RippleButton = React.forwardRef<HTMLButtonElement, RippleButtonProp
         onClick={handleClick}
         {...props}
       >
-        <span className="relative z-10">{children}</span>
+        <span className="relative z-10 flex items-center gap-2 whitespace-nowrap">{children}</span>
         <span className="pointer-events-none absolute inset-0">
           {ripples.map((ripple) => (
             <span

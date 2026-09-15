@@ -63,42 +63,6 @@
   }
 }
 
-@keyframes expertise-orbit-float {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-
-  50% {
-    transform: translateY(-7px) rotate(-1deg);
-  }
-}
-
-@keyframes expertise-orbit-dash {
-  to {
-    stroke-dashoffset: -36;
-  }
-}
-
-.expertise-orbit-node {
-  animation: expertise-orbit-float 3.8s ease-in-out infinite;
-}
-
-.expertise-orbit-ring {
-  stroke: #111111;
-  stroke-width: 0.45;
-  stroke-dasharray: 2 2;
-  opacity: 0.55;
-  animation: expertise-orbit-dash 9s linear infinite;
-}
-
-.expertise-orbit-ring-inner {
-  stroke-width: 0.55;
-  opacity: 0.8;
-  animation-duration: 6s;
-  animation-direction: reverse;
-}
-
 * {
   box-sizing: border-box;
 }
@@ -258,6 +222,26 @@ header.navbar-floating {
   .nav-contact-reveal {
     opacity: 1;
     animation: none;
+  }
+}
+
+@media (max-width: 639px) {
+  .nav-brand-reveal,
+  .nav-link-reveal,
+  .nav-contact-reveal {
+    animation-duration: 850ms;
+  }
+
+  .nav-link-top {
+    animation-delay: 100ms;
+  }
+
+  .nav-link-bottom {
+    animation-delay: 200ms;
+  }
+
+  .nav-contact-reveal {
+    animation-delay: 300ms;
   }
 }
 
